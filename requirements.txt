@@ -1,0 +1,8 @@
+fastapi>=0.115.6
+uvicorn[standard]>=0.32.1
+httpx>=0.28.1
+beautifulsoup4>=4.12.3
+phonenumbers>=8.13.52
+playwright>=1.61.0
+python-dotenv>=1.0.1
+python-multipart>=0.0.19
