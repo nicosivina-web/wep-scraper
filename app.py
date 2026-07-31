@@ -55,11 +55,13 @@ def index():
     return FileResponse(FRONTEND_DIR / "index.html")
 
 
-HOST = os.getenv("HOST", "127.0.0.1")
 PORT = int(os.getenv("PORT", "8000"))
 # Railway (y la mayoría de los hosts) setean esta variable; en la máquina del
 # usuario no existe, así que ahí sí abrimos el navegador automáticamente.
 ES_DEPLOY_REMOTO = bool(os.getenv("RAILWAY_ENVIRONMENT") or os.getenv("PORT"))
+# En deploy remoto hay que escuchar en todas las interfaces (0.0.0.0) para que
+# el proxy del host pueda enrutar tráfico; en local, 127.0.0.1 alcanza y es más seguro.
+HOST = os.getenv("HOST", "0.0.0.0" if ES_DEPLOY_REMOTO else "127.0.0.1")
 
 
 def _abrir_navegador():
