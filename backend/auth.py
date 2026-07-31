@@ -44,4 +44,8 @@ class BasicAuthMiddleware(BaseHTTPMiddleware):
         except (ValueError, UnicodeDecodeError):
             return False
 
-        return secrets.compare_digest(usuario, usuario_esperado) and secrets.compare_digest(clave, clave_esperada)
+                # compare_digest no soporta strings con caracteres no-ASCII (tildes, ñ, etc.)
+        # directamente, así que comparamos los bytes en UTF-8 en su lugar.
+        return secrets.compare_digest(
+            usuario.encode("utf-8"), usuario_esperado.encode("utf-8")
+        ) and secrets.compare_digest(clave.encode("utf-8"), clave_esperada.encode("utf-8"))
